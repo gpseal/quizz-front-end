@@ -54,25 +54,6 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-.offscreen{
-    position: absolute;
-    left: -9999px;
-}
-
-.instructions{
-}
-
-.valid{
-  color: green;
-}
-
-.invalid{
-  color: red;
-}
-
-.hide{
-  display: none;
-}
 
 @media (prefers-color-scheme: light) {
   :root {
