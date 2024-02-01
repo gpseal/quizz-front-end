@@ -8,8 +8,8 @@ import { AxiosError } from "axios";
 //name inputs must be 2-50 characters, alpha characters only
 const NAME_REGEX = /^[a-zA-Z]{2,50}$/;
 
-//username must be 3-23 characters, starting with upper or lower letter, can contain letters, digits, hyphens, underscores
-const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
+//username must be 5-23 characters, starting with upper or lower letter, can contain letters, digits, hyphens, underscores
+const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{4,23}$/;
 
 //email must be in correct format
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
@@ -136,7 +136,7 @@ const Register = () => {
         } else if (err.response?.status === 409) {
           setErrMsg('Username Taken');
         } else {
-          setErrMsg('Registration Failed')
+          setErrMsg(err.response?.data.msg);
         }
 
       }
@@ -156,7 +156,7 @@ const Register = () => {
         ) : (
           <section>
             <p
-              // ref={errRef}
+              ref={errRef}
               className={errMsg ? "errmsg" : "offscreen"}
               // aria-live="assertive"
             >
@@ -164,7 +164,7 @@ const Register = () => {
             </p>
             <h1>Register</h1>
 
-            <form onSubmit={handleSubmit} className="reg-form-wrapper">
+            <form onSubmit={handleSubmit} className="auth-form-wrapper">
               <div className="reg-half">
                 <label htmlFor="first_name">
                   First Name:
@@ -183,7 +183,7 @@ const Register = () => {
                   type="text"
                   id="first_name"
                   ref={userRef}
-                  autoComplete="off"
+                  autoComplete="on"
                   onChange={(e) => setFirst_name(e.target.value)}
                   required
                   aria-invalid={validFirst_name ? "false" : "true"}
@@ -223,7 +223,7 @@ const Register = () => {
                 <input
                   type="text"
                   id="last_name"
-                  autoComplete="off"
+                  autoComplete="on"
                   onChange={(e) => setLast_name(e.target.value)}
                   required
                   aria-invalid={validLast_name ? "false" : "true"}
@@ -262,7 +262,7 @@ const Register = () => {
                   type="text"
                   id="username"
                   // ref={userRef}
-                  autoComplete="off"
+                  autoComplete="on"
                   onChange={(e) => setUsername(e.target.value)}
                   required
                   aria-invalid={validUsername ? "false" : "true"}
@@ -279,7 +279,7 @@ const Register = () => {
                   }
                 >
                   <FontAwesomeIcon icon={faInfoCircle} />
-                  4 to 24 characters.
+                  5 to 24 characters.
                   <br />
                   Must begin with a letter.
                   <br />
@@ -301,7 +301,7 @@ const Register = () => {
                   type="email"
                   id="email"
                   // ref={userRef}
-                  autoComplete="off"
+                  autoComplete="on"
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   aria-invalid={validEmail ? "false" : "true"}
@@ -341,6 +341,7 @@ const Register = () => {
                 <input
                   type="password"
                   id="password"
+                  autoComplete="on"
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   aria-invalid={validUsername ? "false" : "true"}
@@ -389,6 +390,7 @@ const Register = () => {
                   type="password"
                   id="confrim_pwd"
                   onChange={(e) => setMatchPassword(e.target.value)}
+                  autoComplete="on"
                   required
                   aria-invalid={validMatch ? "false" : "true"}
                   aria-describedby="confirmnote"
@@ -408,7 +410,7 @@ const Register = () => {
                 </p>
               </div>
 
-              <div className="reg-footer">
+              <div className="auth-form-footer">
                 <button
                   disabled={
                     !validUsername || !validPassword || !validMatch

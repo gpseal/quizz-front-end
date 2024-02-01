@@ -11,6 +11,12 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --main-back: #f0c618;
+  --main-heading: #1391c4;
+  --highlight: #e7332b;
+  --dark: black;
+  --light: white;
 }
 
 a {
@@ -28,11 +34,15 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: var(--main-back);
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: var(--main-heading);
 }
 
 button {
@@ -45,10 +55,20 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  color: var(--light);
 }
+
 button:hover {
-  border-color: #646cff;
+  /* border-color: #646cff; */
+  background-color: var(--highlight);
 }
+
+button:disabled {
+  background-color: #959595;
+  cursor: default;
+  color: #cacaca;
+}
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -64,6 +84,6 @@ button:focus-visible {
     color: #747bff;
   }
   button {
-    background-color: #f9f9f9;
+    background-color: var(--dark)
   }
 }
