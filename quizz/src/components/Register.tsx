@@ -420,6 +420,8 @@ const Register = () => {
                 >
                   Sign Up
                 </button>
+              </div>
+              <div>
                 <p>
                   Already registered?:
                   <br />
