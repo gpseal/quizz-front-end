@@ -6,8 +6,10 @@ import { AxiosError } from "axios";
 
 const LOGIN_URL = "/auth/login";
 
+
+
 const Login = () => {
-    const { setAuth: ReactNode } = useContext(AuthContext);
+    const { setAuth } = useContext(AuthContext);
     const emailRef = useRef<HTMLInputElement>(null);
     const errRef = useRef<HTMLParagraphElement>(null);
 
@@ -104,7 +106,7 @@ const Login = () => {
           <p>
             Don't have an account?<br />
             <span>
-                <a href="/test">Sign Up</a>
+                <a href="/home">Sign Up</a>
             </span>
           </p>
           </div>
