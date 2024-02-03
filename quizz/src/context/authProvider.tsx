@@ -1,13 +1,28 @@
-import { createContext, useState, ReactNode } from "react";
+import { createContext, useState, ReactNode, Dispatch, SetStateAction } from "react";
 
-const AuthContext = createContext({});
+type ContainerProps = {
+    children: ReactNode;
+}
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
+type AuthContextType = {
+  auth: string;
+  setAuth: Dispatch<SetStateAction<string>>;
+};
+
+const AuthContextState = {
+    auth: '',
+    setAuth: () => ''
+}
+
+const AuthContext = createContext<AuthContextType>(AuthContextState);
+
+export const AuthProvider = (props: ContainerProps) => {
+
   const [auth, setAuth] = useState<string>('');
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>
-      {children}
+      {props.children}
     </AuthContext.Provider>
   );
 };

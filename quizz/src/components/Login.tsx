@@ -4,12 +4,17 @@ import AuthContext from "../context/authProvider";
 import axios from "../api/axios";
 import { AxiosError } from "axios";
 
+import { Link } from "react-router-dom";
+
 const LOGIN_URL = "/auth/login";
 
 
 
 const Login = () => {
-    const { setAuth } = useContext(AuthContext);
+    const authTest = useContext(AuthContext);
+
+    console.log(authTest?.auth)
+
     const emailRef = useRef<HTMLInputElement>(null);
     const errRef = useRef<HTMLParagraphElement>(null);
 
@@ -40,11 +45,17 @@ const Login = () => {
             }
             );
             console.log(JSON.stringify(response?.data));
-            const accessToken = response?.data?.token;
-            setAuth({accessToken})
+            const accessToken = response?.data.token;
+            if (accessToken) {
+                console.log(accessToken)
+                authTest.setAuth(accessToken);
+                console.log(authTest.auth)
+            }
             setEmail('');
             setPassword('');
+            
             setSuccess(true);
+
       } catch (error) {
         const err = error as AxiosError
         if(!err.response) {
@@ -58,14 +69,15 @@ const Login = () => {
 
   return (
     <>
-      {success ? (<section>
-        <h1>You have logged in!</h1>
-        <br />
-        <p>
-            
-        </p>
-      </section>) : 
-      (
+      {success ? (
+        <section>
+          <h1>You have logged in!</h1>
+          <br />
+          <p>
+            <Link to="/home">Link Home</Link>
+          </p>
+        </section>
+      ) : (
         <section>
           <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"}>
             {errMsg}
@@ -103,15 +115,16 @@ const Login = () => {
             </div>
           </form>
           <div>
-          <p>
-            Don't have an account?<br />
-            <span>
-                <a href="/home">Sign Up</a>
-            </span>
-          </p>
+            <p>
+              Don't have an account?
+              <br />
+              <span>
+                <Link to="/register">Sign Up</Link>
+              </span>
+            </p>
           </div>
-        </section>)
-      }
+        </section>
+      )}
     </>
   );
 };

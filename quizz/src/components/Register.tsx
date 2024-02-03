@@ -4,6 +4,7 @@ import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from '../api/axios'
 import { AxiosError } from "axios";
+import { Link } from "react-router-dom";
 
 //name inputs must be 2-50 characters, alpha characters only
 const NAME_REGEX = /^[a-zA-Z]{2,50}$/;
@@ -421,14 +422,14 @@ const Register = () => {
                   Sign Up
                 </button>
               </div>
+            </form>
               <div>
                 <p>
                   Already registered?:
                   <br />
-                  <a href="#">Sign In</a>
+                  <Link to={"/"}>Sign In</Link>
                 </p>
               </div>
-            </form>
           </section>
         )}
       </>
