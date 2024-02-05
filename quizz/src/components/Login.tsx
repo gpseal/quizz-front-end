@@ -1,19 +1,24 @@
-import { useRef, useState, useEffect, useContext } from "react";
-import AuthContext from "../context/authProvider";
+import { useRef, useState, useEffect } from "react";
+import useAuth from '../hooks/useAuth'
 
 import axios from "../api/axios";
 import { AxiosError } from "axios";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const LOGIN_URL = "/auth/login";
 
 
 
 const Login = () => {
-    const authTest = useContext(AuthContext);
 
-    console.log(authTest?.auth)
+    const auth = useAuth();
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
+
+    // console.log(auth)
 
     const emailRef = useRef<HTMLInputElement>(null);
     const errRef = useRef<HTMLParagraphElement>(null);
@@ -21,8 +26,6 @@ const Login = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [errMsg, setErrMsg] = useState<string>('');
-
-    const [success, setSuccess] = useState(false)
 
     useEffect(() => {
         emailRef.current?.focus();
@@ -45,16 +48,15 @@ const Login = () => {
             }
             );
             console.log(JSON.stringify(response?.data));
-            const accessToken = response?.data.token;
-            if (accessToken) {
-                console.log(accessToken)
-                authTest.setAuth(accessToken);
-                console.log(authTest.auth)
+            const loginData = response?.data;
+            if (loginData) {
+                delete loginData.msg
+                console.log(loginData)
+                auth.setAuth(loginData);
             }
             setEmail('');
             setPassword('');
-            
-            setSuccess(true);
+            navigate(from, {replace: true});
 
       } catch (error) {
         const err = error as AxiosError
@@ -68,23 +70,13 @@ const Login = () => {
     };
 
   return (
-    <>
-      {success ? (
-        <section>
-          <h1>You have logged in!</h1>
-          <br />
-          <p>
-            <Link to="/home">Link Home</Link>
-          </p>
-        </section>
-      ) : (
         <section>
           <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"}>
             {errMsg}
           </p>
-          <h1>Sign In</h1>
 
           <form className="auth-form-wrapper" onSubmit={handleSubmit}>
+            <h1>Sign In</h1>
             <div className="reg-full">
               <label htmlFor="email">Email:</label>
               <input
@@ -124,8 +116,6 @@ const Login = () => {
             </p>
           </div>
         </section>
-      )}
-    </>
   );
 };
 

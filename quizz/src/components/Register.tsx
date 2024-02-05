@@ -132,7 +132,6 @@ const Register = () => {
         // Try to refine this
         if (!err?.response) {
           setErrMsg('No Server Response')
-
           // check that this is valid
         } else if (err.response?.status === 409) {
           setErrMsg('Username Taken');
@@ -151,7 +150,7 @@ const Register = () => {
           <section>
             <h1>Success!</h1>
             <p>
-              <a href="#">Sign In</a>
+              <Link to={"/"}>Sign In</Link>
             </p>
           </section>
         ) : (
@@ -163,9 +162,9 @@ const Register = () => {
             >
               {errMsg}
             </p>
-            <h1>Register</h1>
 
             <form onSubmit={handleSubmit} className="auth-form-wrapper">
+                <h1>Register</h1>
               <div className="reg-half">
                 <label htmlFor="first_name">
                   First Name:
